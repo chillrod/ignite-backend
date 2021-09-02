@@ -4,7 +4,7 @@ import { container } from "tsyringe";
 import { CreateSpecificationUseCase } from "./CreateSpecificationUseCase";
 
 class CreateSpecificationController {
-  handle(req: Request, res: Response): Response {
+  async handle(req: Request, res: Response): Promise<Response> {
     const { name, description } = req.body;
 
     const createSpecificationUseCase = container.resolve(
@@ -12,7 +12,7 @@ class CreateSpecificationController {
     );
 
     try {
-      createSpecificationUseCase.execute({ name, description });
+      await createSpecificationUseCase.execute({ name, description });
     } catch (err) {
       return res.status(400).json({
         message: RouteMessages(`A especificação ${name} já existe 😞`),
