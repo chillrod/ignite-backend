@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { container } from "tsyringe";
-import { RouteMessages } from "../../../../utils/RouteMessages";
 import { AuthenticateUserUseCase } from "./AuthenticateUserUseCase";
 
 class AuthenticateUserController {
@@ -9,18 +8,12 @@ class AuthenticateUserController {
 
     const authenticateUserUseCase = container.resolve(AuthenticateUserUseCase);
 
-    try {
-      const token = await authenticateUserUseCase.execute({
-        password,
-        email,
-      });
+    const token = await authenticateUserUseCase.execute({
+      password,
+      email,
+    });
 
-      return res.status(200).json(token);
-    } catch {
-      return res.status(400).json({
-        message: RouteMessages(`Não foi possível autenticar este usuário`),
-      });
-    }
+    if (token) return res.send();
   }
 }
 

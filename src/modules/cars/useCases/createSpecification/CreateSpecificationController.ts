@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { RouteMessages } from "../../../../utils/RouteMessages";
 import { container } from "tsyringe";
 import { CreateSpecificationUseCase } from "./CreateSpecificationUseCase";
 
@@ -11,19 +10,9 @@ class CreateSpecificationController {
       CreateSpecificationUseCase
     );
 
-    try {
-      await createSpecificationUseCase.execute({ name, description });
-    } catch (err) {
-      return res.status(400).json({
-        message: RouteMessages(`A especificação ${name} já existe 😞`),
-      });
-    }
+    await createSpecificationUseCase.execute({ name, description });
 
-    return res.status(201).json({
-      message: RouteMessages(
-        `A especificação ${name} foi criada com sucesso 🥺`
-      ),
-    });
+    return res.send();
   }
 }
 
