@@ -13,7 +13,7 @@ class AuthenticateUserController {
       email,
     });
 
-    if (token) return res.send();
+    if (token) return res.json(token);
   }
 }
 
